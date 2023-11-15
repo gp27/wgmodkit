@@ -7,14 +7,14 @@ use wgpack::halley;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
-#[tauri::command]
+#[tauri::command(async)]
 fn copy_assets(src: &Path, dst: &Path, force: Option<bool>) {
     halley::assets::utils::copy_assets(src, dst, force);
 }
 
-#[tauri::command]
-fn unpack(src: &Path, dst: &Path, pack_version: halley::PackVersion) {
-    halley::unpack_assets(src, dst, pack_version);
+#[tauri::command(async)]
+fn unpack(src: &Path, dst: &Path, pack_version: halley::PackVersion, secret: Option<&str>) {
+    halley::unpack_assets(src, dst, pack_version, secret);
 }
 
 fn main() {

@@ -1,5 +1,6 @@
-import { invoke } from '@tauri-apps/api'
-import { GameInfo } from '../steam/games'
+import { invoke, shell } from '@tauri-apps/api'
+import { createDir } from '@tauri-apps/api/fs'
+import { GameInfo } from '../game/stores'
 
 export function backupGameAssets(game: GameInfo) {
   return invoke('copy_assets', {
@@ -17,10 +18,16 @@ export function restoreGameAssets(game: GameInfo) {
   })
 }
 
-export function unpackGameAssets(game: GameInfo, dst: string) {
-  return invoke('unpack_assets', {
+export function unpackGameAssets(game: GameInfo) {
+  return invoke('unpack', {
     src: game.assetBackupPath,
-    dst,
-    version: game.hpackVersion,
+    dst: `${game.workingPath}/data/`,
+    packVersion: game.hpackVersion,
+    secret: 'K09oemVwNHowNk51S2d1Tg==',
   })
+}
+
+export async function openWorkingDir(game: GameInfo) {
+  await createDir(game.workingPath, { recursive: true })
+  return shell.open(`file://${game.workingPath}/`)
 }

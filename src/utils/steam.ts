@@ -3,7 +3,7 @@ import { homeDir } from '@tauri-apps/api/path'
 import { exists } from '@tauri-apps/api/fs'
 import { open } from '@tauri-apps/api/dialog'
 
-export const defaultSteamDirPromise = type().then(async (osType) => {
+export const defaultSteamPath = await type().then(async (osType) => {
   let dir = ''
   let home = await homeDir()
 
@@ -20,7 +20,7 @@ export const defaultSteamDirPromise = type().then(async (osType) => {
 
 export async function selectSteamDirDialog() {
   let dir = await open({
-    defaultPath: await defaultSteamDirPromise,
+    defaultPath: defaultSteamPath,
     multiple: false,
     directory: true,
     recursive: true,

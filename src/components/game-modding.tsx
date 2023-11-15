@@ -1,29 +1,17 @@
 import { shell } from '@tauri-apps/api'
-import { GameInfo } from '../steam/games'
-import { useGameBackedUp } from '../steam/hooks'
+import { GameInfo } from '../game/stores'
 import TablerFolderOpen from '~icons/tabler/folder-open'
 import TablerBrandSteam from '~icons/tabler/brand-steam'
-
-const openGameDir = (game: GameInfo) => shell.open(`file://${game.gamePath}/`)
-const startGame = (game: GameInfo) => shell.open(`steam://rungameid/${game.steamId}`)
+import TablerFolderCog from '~icons/tabler/folder-cog'
+import { useGameMods } from '../game/hooks'
 
 export function GameModding({ game }: { game: GameInfo }) {
-  const backedUp = useGameBackedUp(game)
-  if (!backedUp) {
-    return (
-      <div className="flex felx-col gap-3">
-        <span>Backing up...</span>
-        <progress className="progress w-56"></progress>
-      </div>
-    )
-  }
-
   return (
-    <div className="m-auto gap-4 flex flex-wrap items-stretch">
+    <div className="m-auto gap-4 flex flex-wrap items-stretch justify-center">
       <GameCard game={game} />
 
-      <ModTools />
-      <ModList />
+      <ModTools game={game} />
+      {/* <ModList /> */}
     </div>
   )
 }
@@ -40,11 +28,11 @@ export function GameCard({ game }: { game: GameInfo }) {
         {/* <h2 className="card-title">{game.name}</h2> */}
         {/* <p>If a dog chews shoes whose shoes does he choose?</p> */}
         <div className="card-actions justify-end">
-          <button onClick={() => openGameDir(game)} className="btn btn-xs">
+          <button onClick={() => shell.open(`file://${game.gamePath}/`)} className="btn btn-xs">
             <TablerFolderOpen />
             Open Folder
           </button>
-          <button onClick={() => startGame(game)} className="btn btn-xs">
+          <button onClick={() => shell.open(`steam://rungameid/${game.steamId}`)} className="btn btn-xs">
             <TablerBrandSteam />
             Start Game
           </button>
@@ -54,14 +42,25 @@ export function GameCard({ game }: { game: GameInfo }) {
   )
 }
 
-export function ModTools() {
+export function ModTools({ game }: { game: GameInfo }) {
+  const gameMods = useGameMods(game)
+
   return (
     <div className="card card-compact bg-neutral shadow-xl">
       <div className="card-body">
         <h2 className="card-title">Mod Tools</h2>
-        <button className="btn">Unpack Game Assets</button>
+        <button className="btn btn-sm" onClick={gameMods.openWorkingDir}>
+          <TablerFolderCog className="text-xl" />
+          Open Working Directory
+        </button>
+        <button className="btn" disabled={gameMods.unpacking} onClick={gameMods.unpackAssets}>
+          Unpack Game Assets
+          {gameMods.unpacking && <span className="loading loading-spinner loading-xs"></span>}
+        </button>
 
-        <button className="btn">Repack Game Assets</button>
+        <button className="btn" disabled={true || gameMods.unpacking}>
+          Repack Game Assets
+        </button>
       </div>
     </div>
   )
@@ -73,7 +72,7 @@ export function ModList() {
       <div className="card-body">
         <h2 className="card-title">Mod List</h2>
         <div className="">
-          <table className="table">
+          <table className="table table-xs">
             {/* head */}
             <thead>
               <tr>

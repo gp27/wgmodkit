@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react'
-import { useSteam, useGames } from '../steam/hooks'
-import { GameInfo } from '../steam/games'
+import { useEffect } from 'react'
+import { useSteam } from '../steam/hooks'
+import { GameInfo } from '../game/stores'
 import TablerBrandSteam from '~icons/tabler/brand-steam'
 import TablerFolderCheck from '~icons/tabler/folder-check'
 import TablerFolderSearch from '~icons/tabler/folder-search'
+import { useGames } from '../game/hooks'
 
-export default function SteamGames({ onGameSelected }: { onGameSelected?: (game: GameInfo | null) => void }) {
+export default function SteamGames({ selectedGame, onGameSelected }: { selectedGame?: GameInfo | null; onGameSelected?: (game: GameInfo | null) => void }) {
   let steam = useSteam()
   let games = useGames()
-  const [selectedGame, setSelectedGame] = useState<GameInfo | null>(null)
+  // const [selectedGame, setSelectedGame] = useState<GameInfo | null>(null)
 
   useEffect(() => {
     selectGame(null)
   }, [steam.dir])
 
   function selectGame(game: GameInfo | null) {
-    setSelectedGame(game)
+    // setSelectedGame(game)
     onGameSelected?.(game)
   }
 

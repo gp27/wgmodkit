@@ -1,7 +1,7 @@
-import { getSettings } from '../settings'
+import { settings } from '../settings'
 
 import { atom, computed, action, onMount, task } from 'nanostores'
-import { defaultSteamDirPromise, isValidSteamDir, selectSteamDirDialog } from './utils'
+import { defaultSteamPath, isValidSteamDir, selectSteamDirDialog } from '../utils/steam'
 
 const $steamDir = atom('')
 const $steamDirValid = atom(false)
@@ -9,8 +9,7 @@ const $steamDirStatusLoading = atom(false)
 
 onMount($steamDir, () => {
   task(async () => {
-    const settings = await getSettings()
-    const defaultSteamDir = await defaultSteamDirPromise
+    const defaultSteamDir = await defaultSteamPath
     const savedSteamDir = (await settings.get('steam_dir')) || ''
     console.log('savedSteamDir', savedSteamDir)
     $steamDir.set(!savedSteamDir && defaultSteamDir ? defaultSteamDir : savedSteamDir)
@@ -22,7 +21,6 @@ $steamDir.listen(async (dir) => {
   let valid = await isValidSteamDir(dir)
   $steamDirValid.set(valid)
   $steamDirStatusLoading.set(false)
-  const settings = await getSettings()
   await settings.set('steam_dir', dir)
   await settings.save()
 })

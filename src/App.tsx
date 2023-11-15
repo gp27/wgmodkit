@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import SteamGames, { SteamSelector } from './components/steam-games'
-import { GameInfo } from './steam/games'
+import { GameInfo } from './game/stores'
 import { GameModding } from './components/game-modding'
-import TablerFolderCog from '~icons/tabler/folder-cog'
+import TablerSettings from '~icons/tabler/settings'
+import TablerInfoSquareRounded from '~icons/tabler/info-square-rounded'
+
+import Features from './features.mdx'
 
 function App() {
   const [selectedGame, setSelectedGame] = useState<GameInfo | null>(null)
@@ -17,19 +20,24 @@ function App() {
             <SteamSelector />
           </li>
           <li>
-            <button>
-              <TablerFolderCog className="text-xl" /> Working Directory
+            <button className={`${selectedGame === null ? 'active' : ''}`} onClick={() => setSelectedGame(null)}>
+              <TablerInfoSquareRounded className="text-xl" /> Info
+            </button>
+          </li>
+          <li className="disabled">
+            <button disabled>
+              <TablerSettings className="text-xl" /> Settings
             </button>
           </li>
         </div>
-        <SteamGames onGameSelected={setSelectedGame} />
+        <SteamGames selectedGame={selectedGame} onGameSelected={setSelectedGame} />
       </div>
 
-      <div className="drawer-content flex flex-col items-center justify-center">
+      <div className="drawer-content flex flex-col items-center justify-center gap-4 p-4">
         {/* <label htmlFor="drawer-main" className="btn btn-primary drawer-button">
           Open drawer
         </label> */}
-        <div className="flex flex-col gap-4 p-4">{selectedGame && <GameModding game={selectedGame} />}</div>
+        {selectedGame ? <GameModding game={selectedGame} /> : <Features />}
       </div>
     </div>
   )
