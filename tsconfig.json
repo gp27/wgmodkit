@@ -23,7 +23,8 @@
     "noFallthroughCasesInSwitch": true,
     "types": [
       "unplugin-icons/types/react",
-      "./src/settings.d.ts"
+      "./src/settings.d.ts",
+      "@types/mdx"
     ]
   },
   "include": [

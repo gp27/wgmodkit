@@ -1,10 +1,26 @@
 import { defineConfig } from 'vite'
+import topLevelAwait from 'vite-plugin-top-level-await'
 import react from '@vitejs/plugin-react'
 import Icons from 'unplugin-icons/vite'
+import mdx from '@mdx-js/rollup'
+import remarkGfm from 'remark-gfm'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react(), Icons({ compiler: 'jsx', jsx: 'react' })],
+  plugins: [
+    topLevelAwait({
+      // The export name of top-level await promise for each chunk module
+      promiseExportName: '__tla',
+      // The function to generate import names of top-level await promise in each chunk module
+      promiseImportName: (i) => `__tla_${i}`,
+    }),
+    react(),
+    mdx({
+      providerImportSource: '@mdx-js/react',
+      remarkPlugins: [remarkGfm],
+    }),
+    Icons({ compiler: 'jsx', jsx: 'react' }),
+  ],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
