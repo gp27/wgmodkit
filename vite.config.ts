@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 import Icons from 'unplugin-icons/vite'
 import mdx from '@mdx-js/rollup'
 import remarkGfm from 'remark-gfm'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -20,6 +21,9 @@ export default defineConfig(async () => ({
       remarkPlugins: [remarkGfm],
     }),
     Icons({ compiler: 'jsx', jsx: 'react' }),
+    nodePolyfills({
+      include: ['stream'],
+    }),
   ],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
