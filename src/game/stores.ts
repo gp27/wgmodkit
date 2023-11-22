@@ -8,6 +8,8 @@ import { homeDir as getHomeDir } from '@tauri-apps/api/path'
 export type GameInfo = ReturnType<typeof getGamesFromDefs>[number]
 
 const homeDir = await getHomeDir()
+const workingDirBase = `${homeDir}Wargroove ModKit`
+const repackFileName = '_modkit_.toml'
 
 const gameDefs: {
   name: string
@@ -42,13 +44,27 @@ function getGamesFromDefs(steamDir: string, loading: boolean) {
   return gameDefs.map((game) => {
     const gamePath = `${steamDir}/steamapps/common/${game.gameDir}`
     const assetsPath = `${gamePath}/${game.assetsDir}`
-    const assetBackupPath = `${assetsPath}/${game.assetBackupDir}`
+    const workingPath = `${workingDirBase}/${game.gameDir}`
     return {
       ...game,
-      gamePath,
-      assetsPath,
-      assetBackupPath,
-      workingPath: `${homeDir}Wargroove ModKit/${game.gameDir}`,
+      get gamePath() {
+        return gamePath
+      },
+      get assetsPath() {
+        return assetsPath
+      },
+      get assetBackupPath() {
+        return `${assetsPath}/${game.assetBackupDir}`
+      },
+      get workingPath() {
+        return workingPath
+      },
+      get workingPathData() {
+        return `${workingPath}/data`
+      },
+      get repackFilePath() {
+        return `${assetsPath}/${repackFileName}`
+      },
       installed: false,
       loading,
     }
