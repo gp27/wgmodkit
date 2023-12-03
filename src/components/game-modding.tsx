@@ -73,10 +73,10 @@ export function ModTools({ game }: { game: GameInfo }) {
             {gameMods.repacking && <span className="loading loading-spinner loading-xs"></span>}
           </button>
 
-          <button className="btn btn-sm btn-outline join-item" disabled={!gameMods.isRepacked} onClick={gameMods.readAssets}>
+          {/* <button className="btn btn-sm btn-outline join-item" disabled={!gameMods.isRepacked} onClick={gameMods.readAssets}>
             <TablerRestore className="text-xl" />
             Read Game Assets
-          </button>
+          </button> */}
 
           <button className="btn btn-sm btn-outline join-item" disabled={!gameMods.isRepacked} onClick={gameMods.restoreData}>
             <TablerRestore className="text-xl" />
