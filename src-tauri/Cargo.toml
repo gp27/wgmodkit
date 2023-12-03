@@ -23,7 +23,7 @@ tauri = { version = "1.5.2", features = [
 serde = { version = "1.0", features = ["derive"] }
 fork = "0.1.22"
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-halleypack = { path = "../../halleypack" }
+halleypack = { git = "https://github.com/gp27/halleypack-rust", branch = "main" }
 
 
 [features]
