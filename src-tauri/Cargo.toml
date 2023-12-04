@@ -1,6 +1,6 @@
 [package]
 name = "wgmodkit"
-version = "0.0.0"
+version = "0.1.1"
 description = "Wargroove ModKit"
 authors = ["you"]
 license = ""

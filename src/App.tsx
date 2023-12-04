@@ -2,7 +2,7 @@ import { useState } from 'react'
 import SteamGames, { SteamSelector } from './components/steam-games'
 import { GameInfo } from './game/stores'
 import { GameModding } from './components/game-modding'
-import TablerSettings from '~icons/tabler/settings'
+//import TablerSettings from '~icons/tabler/settings'
 import TablerInfoSquareRounded from '~icons/tabler/info-square-rounded'
 
 import Features from './features.mdx'
