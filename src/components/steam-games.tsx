@@ -21,7 +21,7 @@ export default function SteamGames({ selectedGame, onGameSelected }: { selectedG
   }
 
   return (
-    <ul className="menu bg-base-200">
+    <ul className="menu">
       <li className="menu-title">Games</li>
       {games.map((game, i) => {
         const { name, img, installed } = game

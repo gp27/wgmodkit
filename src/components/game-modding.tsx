@@ -21,7 +21,7 @@ export function GameModding({ game }: { game: GameInfo }) {
 
 export function GameCard({ game }: { game: GameInfo }) {
   return (
-    <div className="card card-compact  bg-neutral shadow-xl">
+    <div className="card card-compact  bg-base-100 shadow-xl">
       {game.img && (
         <figure>
           <img src={game.img} alt={game.name} className="p-2 max-w-[250px]" />
@@ -49,7 +49,7 @@ export function ModTools({ game }: { game: GameInfo }) {
   const gameMods = useGameMods(game)
 
   return (
-    <div className="card card-compact bg-neutral shadow-xl">
+    <div className="card card-compact bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title">Mod Tools</h2>
 
@@ -90,7 +90,7 @@ export function ModTools({ game }: { game: GameInfo }) {
 
 export function ModList() {
   return (
-    <div className="card card-compact bg-neutral shadow-xl">
+    <div className="card card-compact bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title">Mod List</h2>
         <div className="">
