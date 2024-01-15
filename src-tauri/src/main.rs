@@ -6,18 +6,28 @@ use std::path::PathBuf;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
-#[tauri::command(async)]
-fn copy_assets(src: PathBuf, dst: PathBuf, force: Option<bool>) {
+#[tauri::command]
+async fn copy_assets(src: PathBuf, dst: PathBuf, force: Option<bool>) {
     halley::assets::utils::copy_assets(&src, &dst, force);
 }
 
-#[tauri::command(async)]
-fn unpack(src: PathBuf, dst: PathBuf, pack_version: halley::PackVersion, secret: Option<String>) {
+#[tauri::command]
+async fn unpack(
+    src: PathBuf,
+    dst: PathBuf,
+    pack_version: halley::PackVersion,
+    secret: Option<String>,
+) {
     halley::unpack_assets(&src, &dst, pack_version, secret.as_deref());
 }
 
-#[tauri::command(async)]
-fn pack(src: PathBuf, dst: PathBuf, pack_version: halley::PackVersion, secret: Option<String>) {
+#[tauri::command]
+async fn pack(
+    src: PathBuf,
+    dst: PathBuf,
+    pack_version: halley::PackVersion,
+    secret: Option<String>,
+) {
     halley::pack_assets(&src, &dst, pack_version, secret.as_deref());
 }
 
