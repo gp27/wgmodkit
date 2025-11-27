@@ -1,4 +1,3 @@
-import { shell } from '@tauri-apps/api'
 import { GameInfo } from '../game/stores'
 import TablerFolderOpen from '~icons/tabler/folder-open'
 import TablerBrandSteam from '~icons/tabler/brand-steam'
@@ -7,6 +6,7 @@ import TablerRestore from '~icons/tabler/restore'
 import TablerFileStack from '~icons/tabler/file-stack'
 import TablerPackage from '~icons/tabler/package'
 import { useGameMods } from '../game/hooks'
+import { openPath } from '@tauri-apps/plugin-opener';
 
 export function GameModding({ game }: { game: GameInfo }) {
   return (
@@ -31,11 +31,11 @@ export function GameCard({ game }: { game: GameInfo }) {
         {/* <h2 className="card-title">{game.name}</h2> */}
         {/* <p>If a dog chews shoes whose shoes does he choose?</p> */}
         <div className="card-actions justify-end">
-          <button onClick={() => shell.open(`file://${game.gamePath}/`)} className="btn btn-xs">
+          <button onClick={() => openPath(game.gamePath)} className="btn btn-xs">
             <TablerFolderOpen />
             Open Folder
           </button>
-          <button onClick={() => shell.open(`steam://rungameid/${game.steamId}`)} className="btn btn-xs">
+          <button onClick={() => openPath(`steam://rungameid/${game.steamId}`)} className="btn btn-xs">
             <TablerBrandSteam />
             Start Game
           </button>

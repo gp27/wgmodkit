@@ -1,6 +1,6 @@
 [package]
 name = "wgmodkit"
-version = "0.1.1"
+version = "0.2.0"
 description = "Wargroove ModKit"
 authors = ["you"]
 license = ""
@@ -10,19 +10,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5", features = [] }
+tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "1.5.2", features = [
-  "fs-all",
-  "dialog-all",
-  "os-all",
-  "path-all",
-  "shell-open",
+tauri = { version = "2", features = [
 ] }
 serde = { version = "1.0", features = ["derive"] }
-tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri-plugin-store = "2"
 halleypack = { git = "https://github.com/gp27/halleypack-rust", branch = "main" }
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-os = "2"
+tauri-plugin-opener = "2"
 
 
 [features]

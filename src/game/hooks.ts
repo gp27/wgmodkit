@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { $games, GameInfo } from './stores'
 import { backupGameAssets, openWorkingDir, readGameAssets, repackGameAssets, restoreGameAssets, unpackGameAssets } from '../utils/assets'
 import { useStore } from '@nanostores/react'
-import { exists } from '@tauri-apps/api/fs'
-import { confirm, message } from '@tauri-apps/api/dialog'
+import { exists } from '@tauri-apps/plugin-fs'
+import { confirm, message } from '@tauri-apps/plugin-dialog'
 
 export function useGames() {
   return useStore($games)
@@ -39,7 +39,7 @@ export function useGameMods(game: GameInfo) {
       unpackAssets: async () => {
         if (isUnpacked) {
           const confirmed = await confirm(`The assets for '${game.name}' have already been unpacked. Unpacking again will overwrite any changes you have made. Are you sure you want to continue?`, {
-            type: 'warning',
+            kind: 'warning',
           })
           if (!confirmed) {
             return

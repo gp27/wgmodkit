@@ -1,22 +1,9 @@
-import { type } from '@tauri-apps/api/os'
+import { type } from '@tauri-apps/plugin-os'
 import { homeDir } from '@tauri-apps/api/path'
-import { exists } from '@tauri-apps/api/fs'
-import { open } from '@tauri-apps/api/dialog'
+import { exists } from '@tauri-apps/plugin-fs'
+import { open } from '@tauri-apps/plugin-dialog'
 
-export const defaultSteamPath = await type().then(async (osType) => {
-  let dir = ''
-  let home = await homeDir()
-
-  if (osType == 'Windows_NT') {
-    dir = '/ProgramFiles(x86)/Steam'
-  } else if (osType == 'Darwin') {
-    dir = home + 'Library/Application Support/Steam'
-  } else if (osType == 'Linux') {
-    dir = home + '.local/share/Steam'
-  }
-
-  return dir
-})
+export const defaultSteamPath = await getDefaultSteamPath()
 
 export async function selectSteamDirDialog() {
   let dir = await open({
@@ -25,15 +12,28 @@ export async function selectSteamDirDialog() {
     directory: true,
     recursive: true,
   })
-
-  if (dir instanceof Array) {
-    return dir[0]
-  }
-
   return dir
 }
 
 export function isValidSteamDir(dir: string) {
   dir += '/steamapps/common'
   return exists(dir)
+}
+
+async function getDefaultSteamPath() {
+  const osType = type();
+  let dir = ''
+  let home = await homeDir()
+
+  if (osType == 'windows') {
+    dir = '/ProgramFiles(x86)/Steam'
+  } else if (osType == 'macos') {
+    dir = home + '/Library/Application Support/Steam'
+  } else if (osType == 'linux') {
+    dir = home + '/.local/share/Steam'
+  }
+
+  console.log(dir)
+
+  return dir
 }

@@ -2,13 +2,13 @@ import wgLogo from '../assets/wargroove-logo-vector.png'
 import wg2Logo from '../assets/wargroove-2-logo-vector.png'
 import { atom } from 'nanostores'
 import { $steam } from '../steam/stores'
-import { exists } from '@tauri-apps/api/fs'
+import { exists } from '@tauri-apps/plugin-fs'
 import { homeDir as getHomeDir } from '@tauri-apps/api/path'
 
 export type GameInfo = ReturnType<typeof getGamesFromDefs>[number]
 
 const homeDir = await getHomeDir()
-const workingDirBase = `${homeDir}Wargroove ModKit`
+const workingDirBase = `${homeDir}/Wargroove ModKit`
 const repackFileName = '_modkit_.toml'
 
 const gameDefs: {
